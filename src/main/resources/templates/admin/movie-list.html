@@ -1,0 +1,263 @@
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Quản lý phim</title>-->
+
+<!--    &lt;!&ndash; Bootstrap 5 CSS &ndash;&gt;-->
+<!--    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">-->
+<!--    <style>-->
+<!--        .container {-->
+<!--            background: #222529; /* Màu tối cho container */-->
+<!--            padding: 20px;-->
+<!--            border-radius: 10px;-->
+<!--            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);-->
+<!--        }-->
+
+<!--        .table {-->
+<!--            background: transparent !important; /* Xóa nền của bảng */-->
+<!--            color: white;-->
+<!--        }-->
+
+<!--        .table thead {-->
+<!--            background: #4dbf00 !important; /* Màu xanh lá cho tiêu đề */-->
+<!--        }-->
+<!--        -->
+<!--        .table th, .table td {-->
+<!--            background: transparent !important; /* Xóa màu nền từng ô */-->
+<!--            color: white; /* Đảm bảo chữ hiển thị rõ */-->
+<!--            border-color: rgba(255, 255, 255, 0.3); /* Viền mờ */-->
+<!--        }-->
+<!--        -->
+<!--        .table-hover tbody tr:hover {-->
+<!--            background: rgba(255, 255, 255, 0.1) !important; /* Hiệu ứng hover */-->
+<!--        }-->
+
+
+<!--    </style>-->
+
+<!--</head>-->
+
+<!--<body class="bg-dark text-light" style="min-height: 100vh; background: linear-gradient(to bottom, #4dbf00, #000);">-->
+
+<!--<div class="container mt-5">-->
+
+<!--    <div class="d-flex justify-content-between mb-3">-->
+<!--        <h4>Danh sách phim</h4>-->
+<!--        <a href="/admin/movies/add" class="btn btn-success">➕ Thêm phim</a>-->
+<!--    </div>-->
+
+<!--    <table class="table table-hover table-bordered shadow-sm">-->
+<!--        <thead class="table-primary text-center">-->
+<!--        <tr>-->
+<!--            <th>ID</th>-->
+<!--            <th>Tiêu đề</th>-->
+<!--            <th>Mô tả</th>-->
+<!--            <th>Hình ảnh</th>-->
+<!--            <th>Hành động</th>-->
+<!--        </tr>-->
+<!--        </thead>-->
+<!--        <tbody>-->
+<!--        <tr th:each="movie : ${movies}" class="align-middle">-->
+<!--            <td th:text="${movie.id}" class="text-center"></td>-->
+<!--            <td th:text="${movie.title}"></td>-->
+<!--            <td th:text="${movie.description}"></td>-->
+<!--            <td class="text-center">-->
+<!--                <img th:src="${movie.thumbnail}" width="100" class="rounded shadow-sm">-->
+<!--            </td>-->
+<!--            <td class="text-center">-->
+<!--                <a th:href="@{/admin/movies/edit/{id}(id=${movie.id})}" class="btn btn-warning btn-sm">✏️ Sửa</a>-->
+<!--                <a th:href="@{/admin/movies/delete/{id}(id=${movie.id})}" class="btn btn-danger btn-sm"-->
+<!--                   onclick="return confirm('Bạn có chắc chắn muốn xóa phim này?');">🗑️ Xóa</a>-->
+<!--            </td>-->
+<!--        </tr>-->
+<!--        </tbody>-->
+<!--    </table>-->
+<!--</div>-->
+
+<!--&lt;!&ndash; Bootstrap 5 JavaScript &ndash;&gt;-->
+<!--<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>-->
+
+<!--</body>-->
+<!--</html>-->
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--Font Awesome CDN-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <title>Movie Management</title>
+    <link rel="stylesheet" href="/css/movie-list.css">
+</head>
+<body>
+
+<div class="container">
+
+    <header>
+
+        <div class="filterEntries">
+            <div class="entries">
+                Show <select name="" id="table_size">
+                <option value="10">10</option>
+                <option value="20">20</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+            </select> entries
+            </div>
+
+            <div class="filter">
+                <label for="search">Search:</label>
+                <input type="search" name="" id="search" placeholder="Enter Film name/No">
+            </div>
+        </div>
+
+        <div class="addMemberBtn">
+            <button onclick="window.location.href='/admin/movies/add'">New Film</button>
+        </div>
+
+    </header>
+
+
+    <table>
+
+        <thead>
+            <tr class="heading">
+                <th>ID</th>
+                <th>Tiêu đề</th>
+                <th>Mô tả</th>
+                <th>Hình ảnh</th>
+                <th>Hành động</th>
+            </tr>
+        </thead>
+
+        <tbody class="userInfo">
+            <tr th:each="movie : ${movies}" class="align-middle">
+                <td th:text="${movie.id}" class="text-center"></td>
+                <td th:text="${movie.title}"></td>
+                <td th:text="${movie.description}"></td>
+                <td class="text-center">
+                    <img th:src="${movie.imagePath}" width="100" class="rounded shadow-sm">
+                </td>
+                <td class="text-center">
+                    <div class="d-flex justify-content-center gap-2">
+                        <a th:href="@{/admin/movies/edit/{id}(id=${movie.id})}" class="btn btn-warning btn-sm rounded-pill d-flex align-items-center" style="text-decoration: none; border: 1px solid #666; border-radius: 3px;">
+                            <i class="fas fa-edit"></i> <span class="ms-1">Sửa</span>
+                        </a>
+                        <a th:href="@{/admin/movies/delete/{id}(id=${movie.id})}" class="btn btn-danger btn-sm rounded-pill d-flex align-items-center"
+                           onclick="return confirm('Bạn có chắc chắn muốn xóa phim này?');" style="text-decoration: none; border: 1px solid #666; border-radius: 3px;">
+                            <i class="fas fa-trash-alt"></i> <span class="ms-1">Xóa</span>
+                        </a>
+                    </div>
+                </td>
+
+            </tr>
+        </tbody>
+
+    </table>
+
+
+    <footer>
+        <span class="showEntries">Showing 1 to 10 of 50 entries</span>
+        <div class="pagination">
+            <!-- <button>Prev</button>
+            <button class="active">1</button>
+            <button>2</button>
+            <button>3</button>
+            <button>4</button>
+            <button>5</button>
+            <button>Next</button> -->
+        </div>
+    </footer>
+</div>
+
+
+<!--Popup Form-->
+
+<div class="dark_bg">
+
+    <div class="popup">
+        <header>
+            <h2 class="modalTitle">New Film</h2>
+            <button class="closeBtn">&times;</button>
+        </header>
+
+        <div class="body">
+            <form action="#" id="myForm">
+                <div class="imgholder">
+                    <label for="uploadimg" class="upload">
+                        <input type="file" name="" id="uploadimg" class="picture">
+                        <i class="fa-solid fa-plus"></i>
+                    </label>
+                    <img src="./img/pic1.png" alt="" width="150" height="150" class="img">
+                </div>
+
+                <div class="inputFieldContainer">
+
+                    <div class="nameField">
+                        <div class="form_control">
+                            <label for="fName">Film No:</label>
+                            <input type="text" name="" id="fName" required>
+                        </div>
+
+                        <div class="form_control">
+                            <label for="lName">Film Name:</label>
+                            <input type="text" name="" id="lName" required>
+                        </div>
+                    </div>
+
+                    <div class="ageCityField">
+                        <div class="form_control">
+                            <label for="age">Description</label>
+                            <input type="number" name="" id="age" required>
+                        </div>
+
+                        <div class="form_control">
+                            <label for="city">Country</label>
+                            <input type="text" name="" id="city" required>
+                        </div>
+                    </div>
+
+                    <div class="postSalary">
+                        <div class="form_control">
+                            <label for="position">Director</label>
+                            <input type="text" name="" id="position" required>
+                        </div>
+
+                        <div class="form_control">
+                            <label for="salary">Actor</label>
+                            <input type="text" name="" id="salary" required>
+                        </div>
+                    </div>
+
+                    <div class="form_control">
+                        <label for="sDate">Year Release:</label>
+                        <input type="date" name="" id="sDate" required>
+                    </div>
+
+                    <div class="form_control">
+                        <label for="email">Category:</label>
+                        <input type="email" name="" id="email" required>
+                    </div>
+
+                    <div class="form_control">
+                        <label for="phone">Espisode</label>
+                        <input type="number" name="" id="phone" required>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <footer class="popupFooter">
+            <button form="myForm" class="submitBtn">Submit</button>
+        </footer>
+    </div>
+
+</div>
+
+
+</body>
+</html>

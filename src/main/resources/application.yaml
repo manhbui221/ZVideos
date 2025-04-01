@@ -1,0 +1,29 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/zvideos
+    username: postgres
+    password: root
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+  security:
+    user:
+      name: admin
+      password: admin
+
+  servlet:
+    multipart:
+      max-file-size: 500MB
+      max-request-size: 500MB
+
+file:
+  upload-dir: uploads
+  video-dir: uploads/videos

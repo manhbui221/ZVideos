@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZVideos - Movies Detail Page</title>
+    <!-- Link to CSS -->
+    <link rel="stylesheet" href="/css/movie-detail.css">
+    <!-- link of swiper css -->
+    <link rel="stylesheet" href="swiper-bundle.min.css">
+    <!-- Fav Icon -->
+    <link rel="shortcut Icon" href="img/fav-icon.png" type="image/x-icon">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+</head>
+<body>
+<!-- Header -->
+<header>
+    <!-- nav -->
+    <div class="nav container">
+        <!-- ------logo------ -->
+        <a th:href="@{/}" class="logo">
+            <h1>ZVIDEOS</h1>
+        </a>
+        <!-- search box -->
+        <div class="search-box">
+            <input type="search" name="" id="search-input" placeholder="search Movies">
+            <i class=' bx bx-search'></i>
+        </div>
+        <!-- ------user------ -->
+        <a href="a" class="user">
+            <img src="img/capybara.jfif" alt=" user image" class="user-img">
+        </a>
+        <!-- ------navBar-------- -->
+        <div class="navbar">
+            <a href="#home" class="nav-link nav-active">
+                <i class='bx bx-home'></i>
+                <span class="nav-link-title">Home</span>
+            </a>
+            <a href="#popular" class="nav-link">
+                <i class='bx bxs-hot'></i>
+                <span class="nav-link-title">Trends</span>
+            </a>
+            <a href="#movies" class="nav-link">
+                <i class='bx bx-compass'></i>
+                <span class="nav-link-title">Series</span>
+            </a>
+            <a href="play-page.html" class="nav-link">
+                <i class='bx bx-tv'></i>
+                <span class="nav-link-title">Movies</span>
+            </a>
+            <a href="#home" class="nav-link">
+                <i class='bx bx-heart'></i>
+                <span class="nav-link-title">Popular</span>
+            </a>
+        </div>
+    </div>
+</header>
+
+
+<!-- -----------home---------------------- -->
+<section class="home container" id="home">
+
+    <img th:src="${movie.imagePath}"
+         alt="background image"
+         class="home-img"
+         style="display: block;
+            -webkit-mask-image: linear-gradient(to left, black, transparent);
+            mask-image: linear-gradient(to left, black, transparent);">
+    <!-- home text -->
+    <div class="home-text">
+        <h1 class="home-title" th:text="${movie.title}"></h1>
+        <a class="watch-movie-btn" th:href="@{/watch/{id}(id=${movie.id})}">
+            Watch the Movie
+        </a>
+    </div>
+
+</section>
+
+<!-- Movie Details Section -->
+<section class="movie-details container" id="movie-details">
+    <!-- Movie Description -->
+    <div class="movie-description">
+        <h2>Movie Description</h2>
+        <p th:text="${movie.description}"></p>
+    </div>
+
+</section>
+</section>
+
+<!-- Home End   -->
+<!-- Popular Section Start -->
+<section class="popular container" id="popular">
+    <div class="heading">
+        <h2 class="heading-title">Popular Movies</h2>
+    </div>
+    <div class="movies-content">
+
+        <div th:each="movie : ${movies}" class="movie-box">
+            <a th:href="@{/watch/{id}(id=${movie.id})}">
+                <img th:src="${movie.imagePath}" alt="" class="movie-box-img">
+                <div class="box-text">
+                    <h2 class="movie-title" th:text="${movie.title}"></h2>
+                    <span class="movie-type">Action</span>
+                </div>
+            </a>
+        </div>
+
+    </div>
+</section>
+<!-- Popular Section End -->
+
+<!-- movie section start -->
+<section class="movies container" id="movies">
+
+    <!-- heading -->
+    <div class="heading">
+        <h2 class="heading-title">Movies And Shows</h2>
+    </div>
+    <!-- Movies Contents -->
+    <div class="movies-content">
+        <!-- Movies box 1 -->
+        <div th:each="movie : ${movies}" class="movie-box">
+            <a th:href="@{/watch/{id}(id=${movie.id})}">
+                <img th:src="${movie.imagePath}" alt="" class="movie-box-img">
+                <div class="box-text">
+                    <h2 class="movie-title" th:text="${movie.title}"></h2>
+                    <span class="movie-type">Action</span>
+                </div>
+            </a>
+        </div>
+
+    </div>
+</section>
+<!-- movie section end -->
+<!-- Next Page -->
+<div class="next-page">
+    <a href="#" class="next-btn">Next Page</a>
+</div>
+<!-- copyright -->
+<div class="copyright">
+    <p>&#169; CarpoolVenom All right Reserved</p>
+</div>
+
+
+<!-- link of swiper js -->
+<script src="swiper-bundle.min.js"></script>
+
+<!-- <script src="main.js"></script> -->
+</body>
+</html>
